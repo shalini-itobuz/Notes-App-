@@ -3,6 +3,6 @@ import noteRoutes from './noteRoutes.js';
 
 const router = express.Router();
 
-router.use('/', noteRoutes);
+router.use(noteRoutes);
 
 export default router;

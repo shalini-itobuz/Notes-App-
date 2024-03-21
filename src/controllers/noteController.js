@@ -71,3 +71,25 @@ export const deleteNote = async (req, res) => {
     res.status(500).json({ status:500, message: error.message });
   }
 };
+
+
+//route search on title basis
+export const titleSearch= async (req, res)=> {
+  try {
+      const title = req.params.title;
+      const notes = await Note.find({ title: { $regex: title, $options: 'i' } });
+      res.status(200).json(notes);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+}
+
+//get last 3 notes 
+export const lastThreeNotes =async (req, res) => {
+  try {
+      const notes = await Note.find().sort({ updatedAt: -1 }).limit(3);
+      res.json({ data: notes, status: 200, message: 'Last three notes based on updated time retrieved successfully' });
+  } catch (error) {
+      res.status(500).json({ status: 500, message: error.message });
+  }
+};
