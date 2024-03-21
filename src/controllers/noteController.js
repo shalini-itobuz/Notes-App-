@@ -1,7 +1,8 @@
 import Note from '../models/noteModel.js';
 
+class mynoteController{
 //Create a new note
-export const createNote = async (req, res) => {
+async createNote (req, res)  {
     try {
       const { title, description } = req.body;
       const existingNote = await Note.findOne({ title: { $regex: new RegExp(`^${title}$`, 'i') } });
@@ -17,7 +18,7 @@ export const createNote = async (req, res) => {
   };
 
 // Get all notes
-export const getAllNotes = async (req, res) => {
+async getAllNotes (req, res) {
   try {
     const notes = await Note.find();
     res.json({data:notes, status:200, message:"All notes retrived successfully"});
@@ -27,7 +28,7 @@ export const getAllNotes = async (req, res) => {
 };
 
 // Get note by ID
-export const getNoteById = async (req, res) => {
+async getNoteById (req, res) {
   try {
     const note = await Note.findById(req.params.id);
     if (!note) {
@@ -40,7 +41,7 @@ export const getNoteById = async (req, res) => {
 };
 
 // Update a note
-export const updateNote = async (req, res) => {
+ async updateNote (req, res) {
   try {
     const { title, description } = req.body;
     const note = await Note.findById(req.params.id);
@@ -56,10 +57,8 @@ export const updateNote = async (req, res) => {
   }
 };
 
-
-
 // Delete a note
-export const deleteNote = async (req, res) => {
+ async  deleteNote(req, res) {
   try {
     const note = await Note.findByIdAndDelete(req.params.id);
     if (!note) {
@@ -72,9 +71,8 @@ export const deleteNote = async (req, res) => {
   }
 };
 
-
 //route search on title basis
-export const titleSearch= async (req, res)=> {
+async titleSearch(req, res) {
   try {
       const title = req.params.title;
       const notes = await Note.find({ title: { $regex: title, $options: 'i' } });
@@ -85,7 +83,7 @@ export const titleSearch= async (req, res)=> {
 }
 
 //get last 3 notes 
-export const lastThreeNotes =async (req, res) => {
+async lastThreeNotes (req, res)  {
   try {
       const notes = await Note.find().sort({ updatedAt: -1 }).limit(3);
       res.json({ data: notes, status: 200, message: 'Last three notes based on updated time retrieved successfully' });
@@ -93,3 +91,6 @@ export const lastThreeNotes =async (req, res) => {
       res.status(500).json({ status: 500, message: error.message });
   }
 };
+}
+
+export default new mynoteController();

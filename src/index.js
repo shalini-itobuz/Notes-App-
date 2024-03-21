@@ -1,15 +1,15 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import routes from './routes/index.js';
 import dotenv from 'dotenv';
 import connectDB from './connect.js';
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5500;
-app.use(express.json());
+const PORT = process.env.PORT || 8000;
 
-// mongoose.connect('mongodb://localhost:27017/notes');
+app.use(express.json());
+app.use(cors());
 
 app.use('/api', routes);
 
